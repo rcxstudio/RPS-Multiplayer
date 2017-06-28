@@ -1,0 +1,19 @@
+.gameplay-box {
+	margin-top: 20px;
+	border: 1px solid red;
+	height: 250px;
+	/*margin: 0px 10px;*/
+}
+
+.comment-box {
+	border: 1px solid red;
+	height: 100px;
+	margin-bottom: 20px;
+}
+
+.comment-input {
+	border: 1px dashed green;
+}
+
+
+

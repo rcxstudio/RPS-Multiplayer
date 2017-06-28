@@ -3,33 +3,91 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Rock Paper Scissors - MP</title>
+	<title>RPS - vs. mode</title>
 	<!-- Bootstrap link -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<!-- Insert the file path to your custom css below -->
 	<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
 </head>
 <body>
-
-	<!-- When we start playing the game, our HTML will be placed into this div. -->
-    <div id="game">
-      <p>Press r, p or s to start playing!</p>
+	<div class="page-header text-center">
+		<h1>Rock, Paper, Scissors - Versus Mode</h1>
+	</div>
+	<!-- Instructions container -->
+    <div class="container text-center">
+    	<div class="row">
+    		<div class="col-md-12">
+    			<h3>Click on rock, paper, or scissors to make your choice. Choose wisely.</h3>
+    		</div>
+		</div>
     </div>
+
+	<!-- Welcome: You are Player # container-->
+    <div class="container text-center">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Delete below span infill -->
+				<h3>Hi, <span id="player">Player Name</span>! You are Player 1.</h3>
+			</div>
+		</div>
+	</div>
+
+	<!-- Status container-->
+    <div class="container text-center">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Delete below span infill -->
+				<h3>...STATUS TEXT...</h3>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+	
+	<!-- Insert name input box and button -->
+	<div class="container">
+		<div class="row">
+			<!-- Player Name Field -->
+			<!-- Below line could use css margin: 0 auto; to center if column was an odd number -->
+			<div class="col-md-4 col-md-offset-4 input-group">
+			  <input type="text" class="form-control" placeholder="Player Name" aria-describedby="basic-addon2">
+			  <span class="input-group-addon" id="basic-addon2">Player Name</span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="row">
+			<!-- Player 1 box -->
+			<div class="col-md-4 gameplay-box">
+				<h4>Waiting for Player 1...</h4>
+			</div>
+			<!-- Results Box -->
+			<div class="col-md-4 gameplay-box">
+				<h4>Results box</h4>
+			</div>
+			<!-- Player 2 box -->
+			<div class="col-md-4 gameplay-box">
+				<h4>Waiting for Player 2...</h4>
+			</div>
+		</div>
+	</div>
+
+	<hr>
 
 	<div class="container">
 		<div class="row">
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
-		  <div class="col-md-1">.col-md-1</div>
+			<!-- Conversation box -->
+			<div class="col-md-8 col-md-offset-2 comment-box">
+				CONVERSATION BOX
+			</div>
+		</div>
+		<div class="row">
+			<!-- Message box -->
+			<div class="col-md-8 col-md-offset-2 input-group">
+			  <input type="text" class="form-control" placeholder="Player Name" aria-describedby="basic-addon2">
+			  <span class="input-group-addon" id="basic-addon2">Send</span>
+			</div>
 		</div>
 	</div>
 	
