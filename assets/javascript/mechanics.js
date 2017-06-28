@@ -13,17 +13,95 @@ firebase.initializeApp(config);
 // WORKING CODE BELOW
 
 var database = firebase.database();
-var players = database.ref('players/');
-var results = database.ref('results/');
+var player1data = database.ref('/player1');
+var player2data = database.ref('/player2');
+// var results = database.ref('results');
+var player1;
+var player2;
 
-database.ref('players/').on('value', function(snapshot) {
-  console.log(snapshot);
+// Capture Button Click
+$('#add-player').on('click', function(event) {
+    event.preventDefault();
+    // console.log('clicked');
+    // Grabbed values from text-boxes
 
+    if (player1 === undefined) {
+        player1 = $("#player-name-input").val().trim();
+        console.log('player1', player1);
+        // comment = $("#comment-input").val().trim();
 
-// If any errors are experienced, log them to console. STANDARD!
-}, function(errorObject) {
-  console.log('The read failed: ' + errorObject.code);
+        // Code for "Setting values in the database"
+        player1data.set({
+            playerName: player1,
+            //comment: 
+        });
+
+        $('#player1-name-display').text('Player 1: ' + player1);
+    }
+
+    else if (player1 != undefined) {
+        player2 = $("#player-name-input").val().trim();
+        console.log('player2', player2);
+
+        // Code for "Setting values in the database"
+        player2data.set({
+            playerName: player2,
+            //comment: 
+        });
+
+        $('#player2-name-display').text('Player 2: ' + player2);
+    }
 });
+
+database.ref().on('child_added', function(snapshot) {
+  // if () {
+
+      // Log everything that's coming out of snapshot
+      console.log(snapshot.val());
+      // console.log(snapshot.val(player1Name));
+
+      // Change the HTML to reflect
+      // $("#name-display").html(snapshot.val().name);
+      // $("#email-display").html(snapshot.val().email);
+      // $("#age-display").html(snapshot.val().age);
+      // $("#comment-display").html(snapshot.val().comment);
+  // }
+      // Handle the errors
+    }, function(errorObject) {
+      console.log("Errors handled: " + errorObject.code);
+});
+
+database.ref('/players').on('child_removed', function(snapshot) {
+
+      // Log everything that's coming out of snapshot
+      console.log(snapshot.val());
+      console.log(snapshot.val().name);
+      console.log(snapshot.val().email);
+      console.log(snapshot.val().age);
+      console.log(snapshot.val().comment);
+
+      // Change the HTML to reflect
+      $("#name-display").html(snapshot.val().name);
+      $("#email-display").html(snapshot.val().email);
+      $("#age-display").html(snapshot.val().age);
+      $("#comment-display").html(snapshot.val().comment);
+
+      // Handle the errors
+    }, function(errorObject) {
+      console.log("Errors handled: " + errorObject.code);
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 // function writeUserData(userId, choice) {
 //   database.ref('players/' + userId).set({
