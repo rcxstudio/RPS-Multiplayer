@@ -50,8 +50,12 @@
 			<!-- Player Name Field -->
 			<!-- Below line could use css margin: 0 auto; to center if column was an odd number -->
 			<div class="col-md-4 col-md-offset-4 input-group">
-			  <input type="text" class="form-control" placeholder="Player Name" aria-describedby="basic-addon2">
-			  <span class="input-group-addon" id="basic-addon2">Player Name</span>
+			  <form class="form-inline">
+				  <div class="form-group">
+				    <input type="text" class="form-control" id="player-name-input" placeholder="Enter Player Name">
+				  </div>
+				  <button type="submit" class="btn btn-default" id="add-player">Create Player</button>
+			</form>
 			</div>
 		</div>
 	</div>
@@ -60,7 +64,7 @@
 		<div class="row">
 			<!-- Player 1 box -->
 			<div class="col-md-4 gameplay-box">
-				<h4>Waiting for Player 1...</h4>
+				<h4 id="player1-name-display">Waiting for Player 1...</h4>
 			</div>
 			<!-- Results Box -->
 			<div class="col-md-4 gameplay-box">
@@ -68,7 +72,7 @@
 			</div>
 			<!-- Player 2 box -->
 			<div class="col-md-4 gameplay-box">
-				<h4>Waiting for Player 2...</h4>
+				<h4 id="player2-name-display">Waiting for Player 2...</h4>
 			</div>
 		</div>
 	</div>
