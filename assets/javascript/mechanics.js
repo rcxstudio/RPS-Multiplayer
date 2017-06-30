@@ -114,22 +114,20 @@ function storingInfo() {
     }
 }
 
-function displayInfo() {
+function player1DisplayInfo() {
     //player1 name and selection choices displayed
     $('#player1-name-display').text('Player 1: ' + player1Info.name);
     $('#player1-box').append('<p class="player1choices">Rock</p>');
     $('#player1-box').append('<p class="player1choices">Paper</p>');
     $('#player1-box').append('<p class="player1choices">Scissors</p>');
+}
 
+function player2DisplayInfo() {
     //player2 name and selection choices displayed
     $('#player2-name-display').text('Player 2: ' + player2Info.name);
     $('#player2-box').append('<p class="player1choices">Rock</p>');
     $('#player2-box').append('<p class="player1choices">Paper</p>');
     $('#player2-box').append('<p class="player1choices">Scissors</p>');
-}
-
-function nameInputHide() {
-
 }
 
 
@@ -138,13 +136,23 @@ $('#add-player').on('click', function(event) {
     console.log('adding player button clicked');
     $('#player-name-input-wrapper').hide();
 
-    // add user 1 if snapashot.val() === null
     if (player1Toggle === false) {
         addPlayer1();
+        player1DisplayInfo();
+
+        $('#player').text(player1Info.name);
+        $('#status-line').text('Waiting for Player 2...');
+
     }
 
     else if (player1Toggle != false) {
         addPlayer2();
+        player1DisplayInfo();
+        player2DisplayInfo();
+
+        $('#player').text(player2Info.name);
+        $('#status-line').text('Ready');
+        $('#player-number-statement').text('2');
     }
 });
 
