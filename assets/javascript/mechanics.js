@@ -26,8 +26,8 @@ var player2Database = database.ref('players/player2');
 var player1Toggle = false;
 var player2Toggle = false;
 
-var player1Stats;
-var player2Stats;
+var player1Info;
+var player2Info;
 
 //CONTROL TEST
 console.log('player1Database - before', player1Database.child)
@@ -40,7 +40,8 @@ connectedRef.on('value', function(snapshot) {
         
         //Below only works for player 1: NEED TO MAKE IT SO IT KNOWS PLAYER 1 VS. PLAYER 2 LEAVING
         player1Database.onDisconnect().remove(); //only removes Player1 --> tested it out and it works
-        //remove the player as a child of root
+        // player2Database.onDisconnect().remove();
+        //remove the player as a child of root?
     }
 });
 
@@ -59,16 +60,13 @@ function addPlayer1(player1Name) {
             losses: player1LossCount,
             ties: player1TieCount
         });
-
-        // ADD SESSION STORAGE BELOW
-        // sessionStorage.setItem('player1Name', player1Database.)
     }
 
     player1Data();
-    console.log(player1Info.name);
-    
-    sessionStorage.setItem('player1Name',player1Database.name)
+    storingInfo();
 
+    console.log(player1Info);
+    console.log(player2Info);
 }
 
 function addPlayer2(player2Name) {
@@ -87,11 +85,58 @@ function addPlayer2(player2Name) {
     }
 
     player2Data();
+    storingInfo();
+
+    console.log(player1Info);
+    console.log(player2Info);
 }
+
+function storingInfo() {
+    //player2 information from firebase
+    if (player1Toggle === true && player2Toggle === true) {
+        sessionStorage.setItem('player1Name', player1Info.name);
+        sessionStorage.setItem('player1Wins', player1Info.wins);
+        sessionStorage.setItem('player1Losses', player1Info.losses);
+        sessionStorage.setItem('player1Ties', player1Info.ties);
+
+        sessionStorage.setItem('player2Name', player2Info.name);
+        sessionStorage.setItem('player2Wins', player2Info.wins);
+        sessionStorage.setItem('player2Losses', player2Info.losses);
+        sessionStorage.setItem('player2Ties', player2Info.ties);
+    }
+
+    //player1 information from firebase
+    else if (player1Toggle === true) {
+        sessionStorage.setItem('player1Name', player1Info.name);
+        sessionStorage.setItem('player1Wins', player1Info.wins);
+        sessionStorage.setItem('player1Losses', player1Info.losses);
+        sessionStorage.setItem('player1Ties', player1Info.ties);
+    }
+}
+
+function displayInfo() {
+    //player1 name and selection choices displayed
+    $('#player1-name-display').text('Player 1: ' + player1Info.name);
+    $('#player1-box').append('<p class="player1choices">Rock</p>');
+    $('#player1-box').append('<p class="player1choices">Paper</p>');
+    $('#player1-box').append('<p class="player1choices">Scissors</p>');
+
+    //player2 name and selection choices displayed
+    $('#player2-name-display').text('Player 2: ' + player2Info.name);
+    $('#player2-box').append('<p class="player1choices">Rock</p>');
+    $('#player2-box').append('<p class="player1choices">Paper</p>');
+    $('#player2-box').append('<p class="player1choices">Scissors</p>');
+}
+
+function nameInputHide() {
+
+}
+
 
 $('#add-player').on('click', function(event) {
     event.preventDefault();
     console.log('adding player button clicked');
+    $('#player-name-input-wrapper').hide();
 
     // add user 1 if snapashot.val() === null
     if (player1Toggle === false) {
@@ -144,79 +189,12 @@ database.ref().on('value', function(snapshot) {
 );
 
 
-
-
-
-
-
-
-// // Capture Button Click
-// $('#add-player').on('click', function(event) {
-//     event.preventDefault();
-//     // console.log('clicked');
-//     // Grabbed values from text-boxes
-    
-//     if (playersDatabase.child != 'player1') {
-        
-//     }
-
-//     else if (player1Database.key === 'player1' && player2Database.key != 'player2') {
-//         var player2 = $("#player-name-input").val().trim();
-//         var player2WinCount = 0;
-//         var player2LossCount = 0;
-//         var player2TieCount = 0;
-
-//         function player2data(name, wins, losses, ties) {
-//             player2database.set({
-//                 name: player2,
-//                 wins: player2WinCount,
-//                 losses: player2LossCount,
-//                 ties: player2TieCount
-//             });
-
-//             // sessionStorage.setItem('name', player2);
-//             // sessionStorage.setItem('wins', player2WinCount);
-//             // sessionStorage.setItem('losses', player2LossCount);
-//             // sessionStorage.setItem('ties', player2TieCount);
-//             console.log('player2 conditional');
-//         }
-
-//         player2data();
-//         console.log('playersdatabase.child - after', player2database.child)
-//     }
-// });
-
-
-
-
-
-
-//FIREBASE SNAPSHOTS
-//below checks for disconnections
-// connectedRef.on("value", function(snapshot) {
-//     if (snapshot.val() != true) {
-//         console.log('not connected');
-//         sessionStorage.clear();
-//         //remove the player as a child of root
-//     }
-// });
-
 // database.ref().on('child_added', function(snapshot) {
 //     if snapshot.child("name").val(); // {first:"Ada",last:"Lovelace"}
 //     var firstName = snapshot.child("name/first").val(); // "Ada"
 //     var lastName = snapshot.child("name").child("last").val(); // "Lovelace"
 //     var age = snapshot.child("age").val(); // null
 //     });
-
-
-
-
-
-
-
-
-
-
 
 
 
