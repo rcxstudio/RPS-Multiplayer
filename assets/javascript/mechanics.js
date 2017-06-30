@@ -26,6 +26,9 @@ var player2Database = database.ref('players/player2');
 var player1Toggle = false;
 var player2Toggle = false;
 
+var player1Stats;
+var player2Stats;
+
 //CONTROL TEST
 console.log('player1Database - before', player1Database.child)
 
@@ -62,12 +65,10 @@ function addPlayer1(player1Name) {
     }
 
     player1Data();
+    console.log(player1Info.name);
     
-    // sessionStorage.setItem('player1Name',player1Database.name)
+    sessionStorage.setItem('player1Name',player1Database.name)
 
-    console.log('addPlayer1 complete');
-    console.log('player1Presence - after player1 add', player1Presence);
-    console.log('player2Presence - after player1 add', player2Presence);
 }
 
 function addPlayer2(player2Name) {
@@ -102,11 +103,6 @@ $('#add-player').on('click', function(event) {
     }
 });
 
-
-
-
-
-
 //watches for any change at all
 database.ref().on('value', function(snapshot) {
     // Log everything that's coming out of snapshot
@@ -116,13 +112,25 @@ database.ref().on('value', function(snapshot) {
     console.log('snapshot of player', Object.keys(snapshot.val())[0]);
     console.log('snapshot of player1', (Object.values(snapshot.val())[0]).player1);
     console.log('snapshot of player1', (Object.keys(Object.values(snapshot.val())[0]))[0] === 'player1');
+    console.log('snapshot of player2', (Object.keys(Object.values(snapshot.val())[0]))[1] === 'player2');
     console.log('snapshot of player1', (Object.values(snapshot.val())[0]).player1.name);
     
     var player1Presence = (Object.keys(Object.values(snapshot.val())[0]))[0];
+    var player2Presence = (Object.keys(Object.values(snapshot.val())[0]))[1];
 
     if (player1Presence === 'player1') {
         player1Toggle = true;
+        player1Info = (Object.values(snapshot.val())[0]).player1;
+
+        if (player2Presence === 'player2') {
+            player2Toggle = true;
+            player2Info = (Object.values(snapshot.val())[0]).player2;
+            console.log('snapshot of player1', (Object.values(snapshot.val())[0]).player2);
+            console.log(player2Info);
+
+        }
         console.log(player1Toggle);
+        console.log(player2Toggle);
     }
 
     // else if (snapshat.val() === null) {
