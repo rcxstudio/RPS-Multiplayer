@@ -27,9 +27,9 @@ var player1Toggle = false;
 var player2Toggle = false;
 
 var player1Info;
-var player1Choice;
+var player1Choice = '';
 var player2Info;
-var player2Choice;
+var player2Choice = '';
 
 //CONTROL TEST
 console.log('player1Database - before', player1Database.child)
@@ -60,7 +60,8 @@ function addPlayer1(player1Name) {
             name: player1,
             wins: player1WinCount,
             losses: player1LossCount,
-            ties: player1TieCount
+            ties: player1TieCount,
+            choice: player1Choice
         });
     }
 
@@ -82,7 +83,8 @@ function addPlayer2(player2Name) {
             name: player2,
             wins: player2WinCount,
             losses: player2LossCount,
-            ties: player2TieCount
+            ties: player2TieCount,
+            choice: player2Choice
         });
     }
 
@@ -119,19 +121,18 @@ function storingInfo() {
 function player1DisplayInfo() {
     //player1 name and selection choices displayed
     $('#player1-name-display').text('Player 1: ' + player1Info.name);
-    $('#player1-box').append('<p class="player1choices">Rock</p>');
-    $('#player1-box').append('<p class="player1choices">Paper</p>');
-    $('#player1-box').append('<p class="player1choices">Scissors</p>');
+    $('#player1-box').append('<p class="player1Choices" data-value="rock">Rock</p>');
+    $('#player1-box').append('<p class="player1Choices data-value="paper">Paper</p>');
+    $('#player1-box').append('<p class="player1Choices data-value="scissors">Scissors</p>');
 }
 
 function player2DisplayInfo() {
     //player2 name and selection choices displayed
     $('#player2-name-display').text('Player 2: ' + player2Info.name);
-    $('#player2-box').append('<p class="player1choices">Rock</p>');
-    $('#player2-box').append('<p class="player1choices">Paper</p>');
-    $('#player2-box').append('<p class="player1choices">Scissors</p>');
+    $('#player2-box').append('<p class="player1Choices" data-value="rock">Rock</p>');
+    $('#player2-box').append('<p class="player1Choices" data-value="paper">Paper</p>');
+    $('#player2-box').append('<p class="player1Choices" data-value="scissors">Scissors</p>');
 }
-
 
 $('#add-player').on('click', function(event) {
     event.preventDefault();
@@ -162,25 +163,25 @@ $('#add-player').on('click', function(event) {
 
 
 // FIX CLICK SELECTIONS-----------------
-$(document).on('click', '.player1choices', function(event) {
+$(document).on('click', '.player1Choices', function(event) {
     console.log('clicked');
-    player1choice = $(this).text();
-    console.log(player1choice);
+    player1Choice = $(this).text();
+    console.log(player1Choice);
 
-    player1Database.push({
-        choice: player1Choice
-    });
+    // DOES BELOW LINE WORK?
+    // FIND BEST TO SEND CHOICE TO DATABASE FOR 
+    
+
     results();
 });
 
-$(document).on('click', '.player2choices', function(event) {
+$(document).on('click', '.player2Choices', function(event) {
     console.log('clicked');
-    player2choice = $(this).text();
-    console.log(player2choice);
+    player2Choice = $(this).text();
+    console.log(player2Choice);
 
-    player2Database.push({
-        choice: player2Choice
-    });
+    // FIXING PLAYER 1 CHOICE TO COPY OVER HERE
+
     results();
 });
 // FIX CLICK SELECTIONS-----------------
@@ -188,7 +189,7 @@ $(document).on('click', '.player2choices', function(event) {
 
 
 
-//watches for any change at all
+//watches for any change at all. If time allows, go back to be more selective on what to watch.
 database.ref().on('value', function(snapshot) {
     // Log everything that's coming out of snapshot
 
@@ -240,59 +241,63 @@ database.ref().on('value', function(snapshot) {
 );
 
 
-//WORK ON EDITING THE BELOW CODE!!!!!!!!!!!!!!!!
-// function results() {
-//     if ((player1choice != undefined) && (player2choice != undefined)) {
-//         var player1win = $('#results-box').html('<p>' + player1 + ' wins with ' + player1choice + '</p>');
-//         var player2win = $('#results-box').html('<p>' + player2 + ' wins with ' + player2choice + '</p>');
-//         var playerTie = $('#results-box').html('<p>You tied with ' + player2choice + '</p>');
+// WORKING ON BELOW CODE
+function results() {
+    if ((player1Choice != '') && (player2Choice != '')) {
+        var player1Win = $('#results-box').html('<p>' + player1Info.name + ' wins with ' + player1Choice + '</p>');
+        var player2Win = $('#results-box').html('<p>' + player2Info.name + ' wins with ' + player2Choice + '</p>');
+        var playerTie = $('#results-box').html('<p>You tied with ' + player2Choice + '</p>');
 
-//         console.log('player1choice - before', player1choice);
-//         console.log('player2choice - before', player2choice);
-//         // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate counter.
-//         if ((player1choice === "Rock") && (player2choice === "Scissors")) {
-//             // player 1 wins
-//             player1win;
-//         }
-//         else if ((player1choice === "Rock") && (player2choice === "Paper")) {
-//             // player 2 wins
-//             player2win;
-//         }
-//         else if ((player1choice === "Scissors") && (player2choice === "Rock")) {
-//             // player 2 wins;
-//             player2win;
-//         }
-//         else if ((player1choice === "Scissors") && (player2choice === "Paper")) {
-//             // player 1 wins;
-//             player1win;
-//         }
-//         else if ((player1choice === "Paper") && (player2choice === "Rock")) {
-//             // player 1 wins;
-//             player1win;
-//         }
-//         else if ((player1choice === "Paper") && (player2choice === "Scissors")) {
-//             // player 2 wins;
-//             player2win;
-//         }
-//         else if (player1choice === player2choice) {
-//             // 'tie!';
-//             playerTie;
-//         }
+        console.log('player1Choice - before', player1Choice);
+        console.log('player2Choice - before', player2Choice);
+        // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate counter.
+        if ((player1Choice === "Rock") && (player2Choice === "Scissors")) {
+            // player 1 wins
+            player1Win;
+        }
+        else if ((player1Choice === "Rock") && (player2Choice === "Paper")) {
+            // player 2 wins
+            player2Win;
+        }
+        else if ((player1Choice === "Scissors") && (player2Choice === "Rock")) {
+            // player 2 wins;
+            player2Win;
+        }
+        else if ((player1Choice === "Scissors") && (player2Choice === "Paper")) {
+            // player 1 wins;
+            player1Win;
+        }
+        else if ((player1Choice === "Paper") && (player2Choice === "Rock")) {
+            // player 1 wins;
+            player1Win;
+        }
+        else if ((player1Choice === "Paper") && (player2Choice === "Scissors")) {
+            // player 2 wins;
+            player2Win;
+        }
+        else if (player1Choice === player2Choice) {
+            // 'tie!';
+            playerTie;
+        }
 
-//         playerChoiceClear();
-//         console.log('player1choice - after', player1choice);
-//         console.log('player2choice - after', player2choice);
-//     }
+        player1Choice = '';
+        player2Choice = '';
+        // console.log('player1Choice - after', player1Choice);
+        // console.log('player2Choice - after', player2Choice);
+    }
 
-//     else if((player1choice != undefined) && (player2choice === undefined)){
-//         $('#results-box').html('<p>Waiting for ' + player2 + ' to choose.</p>');
-//     }
+    else if((player1Choice != '') && (player2Choice === '')){
+        $('#results-box').html('<p>Waiting for ' + player2Info.name + ' to choose.</p>');
+    }
 
-//     else if((player1choice === undefined) && (player2choice != undefined)){
-//         $('#results-box').html('<p>Waiting for ' + player1 + ' to choose.</p>');
-//     }
-// }
-//WORK ON ABOVE CODE!!!!!
+    else if((player1Choice === '') && (player2Choice != '')){
+        $('#results-box').html('<p>Waiting for ' + player1Info.name + ' to choose.</p>');
+    }
+}
+
+//WORKING ON ABOVE CODE
+
+
 
 // database.ref().on('child_added', function(snapshot) {
 //     if snapshot.child("name").val(); // {first:"Ada",last:"Lovelace"}
@@ -315,9 +320,9 @@ database.ref().on('value', function(snapshot) {
 //         });
 
 //         $('#player1-name-display').text('Player 1: ' + player1);
-//         $('#player1-box').append('<p class="player1choices">Rock</p>');
-//         $('#player1-box').append('<p class="player1choices">Paper</p>');
-//         $('#player1-box').append('<p class="player1choices">Scissors</p>');
+//         $('#player1-box').append('<p class="player1Choices">Rock</p>');
+//         $('#player1-box').append('<p class="player1Choices">Paper</p>');
+//         $('#player1-box').append('<p class="player1Choices">Scissors</p>');
 //     }
 
 //     //MIGHT HAVE AN ISSUE WITH LINE BELOW---RELOAD OF PAGE ALWAYS MAKES THIS UNDEFINED
@@ -332,9 +337,9 @@ database.ref().on('value', function(snapshot) {
 //         });
 
 //         $('#player2-name-display').text('Player 2: ' + player2);
-//         $('#player2-box').append('<p class="player2choices">Rock</p>');
-//         $('#player2-box').append('<p class="player2choices">Paper</p>');
-//         $('#player2-box').append('<p class="player2choices">Scissors</p>');
+//         $('#player2-box').append('<p class="player2Choices">Rock</p>');
+//         $('#player2-box').append('<p class="player2Choices">Paper</p>');
+//         $('#player2-box').append('<p class="player2Choices">Scissors</p>');
 //     }
 
 //     console.log('player1data - after click', player1data.key.playerName);
@@ -377,10 +382,3 @@ database.ref().on('value', function(snapshot) {
 //     }, function(errorObject) {
 //       console.log("Errors handled: " + errorObject.code);
 // });
-
-
-
-// function playerChoiceClear() {
-//     player1choice = undefined;
-//     player2choice = undefined;
-// }
