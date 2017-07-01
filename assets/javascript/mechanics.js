@@ -235,13 +235,14 @@ database.ref().on('value', function(snapshot) {
     //     player2Presence = false;
     // }
     // Handle the errors
+
     }, function(errorObject) {
-    console.log("Errors handled: " + errorObject.code);
+        console.log("Errors handled: " + errorObject.code);
     }
 );
 
 
-// WORKING ON BELOW CODE
+// WORKING ON BELOW CODE NEED TO COORDINATE AND WORK ON VARIABLES AND WIN/LOSS/TIE COUNTS
 function results() {
     if ((player1Choice != '') && (player2Choice != '')) {
         var player1Win = $('#results-box').html('<p>' + player1Info.name + ' wins with ' + player1Choice + '</p>');
@@ -299,70 +300,10 @@ function results() {
 
 
 
-// database.ref().on('child_added', function(snapshot) {
-//     if snapshot.child("name").val(); // {first:"Ada",last:"Lovelace"}
-//     var firstName = snapshot.child("name/first").val(); // "Ada"
-//     var lastName = snapshot.child("name").child("last").val(); // "Lovelace"
-//     var age = snapshot.child("age").val(); // null
-//     });
-
-
-
-//     if ((player1 === undefined && player2 === undefined) || (player1 === undefined && player2 != undefined)) {
-//         player1 = $("#player-name-input").val().trim();
-//         //console.log('player1', player1);
-//         // comment = $("#comment-input").val().trim();
-
-//         // Code for "Setting values in the database" --- MAYBE SET IN SESSION STORAGE SO IT STAYS ON?
-//         player1data.set({
-//             playerName: player1,
-//             //comment: 
-//         });
-
-//         $('#player1-name-display').text('Player 1: ' + player1);
-//         $('#player1-box').append('<p class="player1Choices">Rock</p>');
-//         $('#player1-box').append('<p class="player1Choices">Paper</p>');
-//         $('#player1-box').append('<p class="player1Choices">Scissors</p>');
-//     }
-
-//     //MIGHT HAVE AN ISSUE WITH LINE BELOW---RELOAD OF PAGE ALWAYS MAKES THIS UNDEFINED
-//     else if (player1 != undefined && player2 === undefined) {
-//         player2 = $("#player-name-input").val().trim();
-//         //console.log('player2', player2);
-
-//         // Code for "Setting values in the database"
-//         player2data.set({
-//             playerName: player2,
-//             //comment: 
-//         });
-
-//         $('#player2-name-display').text('Player 2: ' + player2);
-//         $('#player2-box').append('<p class="player2Choices">Rock</p>');
-//         $('#player2-box').append('<p class="player2Choices">Paper</p>');
-//         $('#player2-box').append('<p class="player2Choices">Scissors</p>');
-//     }
-
-//     console.log('player1data - after click', player1data.key.playerName);
-
-// });
-
-
+//BELOW USED FOR REFERENCE AND AS A CATCHALL FOR THOUGHTS
 
 // database.ref().on('child_added', function(snapshot) {
 //   // if () {
-
-//       // Log everything that's coming out of snapshot
-//       console.log(snapshot.val());
-//       console.log(snapshot.val().playerName);
-//       // console.log(snapshot.val(player1Name));
-
-//       // Change the HTML to reflect player leaving (Store playername in sessions)
-//       // $("#name-display").html(snapshot.val().name);
-//   // }
-
-
-
-
 
 //     // Handle the errors
 //     }, function(errorObject) {
