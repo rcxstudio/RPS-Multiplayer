@@ -47,6 +47,69 @@ connectedRef.on('value', function(snapshot) {
     }
 });
 
+// playersParent.on('value', function(snapshot) {
+//     console.log(snapshot.val()); //starts as null
+//     var mainDB = snapshot.val();
+
+
+//     }, function(errorObject) {
+//         console.log("Errors handled: " + errorObject.code);
+//     }
+// );
+
+// player1Database.on('value', function(snapshot) {
+//     console.log(snapshot.val()); //starts as null
+//     var mainDB = snapshot.val();
+
+
+//     }, function(errorObject) {
+//         console.log("Errors handled: " + errorObject.code);
+//     }
+// );
+
+// player2Database.on('value', function(snapshot) {
+//     console.log(snapshot.val()); //starts as null
+//     var mainDB = snapshot.val();
+
+
+//     }, function(errorObject) {
+//         console.log("Errors handled: " + errorObject.code);
+//     }
+// );
+
+
+//WORK ON HOW TO TURN ON LISTENING FOR A LIST/DIRECTORY!!!!!!!!!!
+player1Database.on('value', function(snapshot) {
+    var mainDB = snapshot.val();
+    sessionStorage.setItem('player1Choice', player1Info.choice);
+    sessionStorage.setItem('player2Choice', player2Info.choice);
+
+    console.log('VALUE LISTENER')
+
+    results();
+
+    }, function(errorObject) {
+        console.log("Errors handled: " + errorObject.code);
+    }
+);
+
+player2Database.on('value', function(snapshot) {
+    var mainDB = snapshot.val();
+    sessionStorage.setItem('player1Choice', player1Info.choice);
+    sessionStorage.setItem('player2Choice', player2Info.choice);
+
+    console.log('VALUE LISTENER')
+
+    results();
+
+    }, function(errorObject) {
+        console.log("Errors handled: " + errorObject.code);
+    }
+);
+
+//WORK ON HOW TO TURN ON LISTENING FOR A LIST/DIRECTORY!!!!!!!!!!
+
+
 
 // FUNCTIONS -------------
 function addPlayer1(player1Name) {
@@ -129,9 +192,9 @@ function player1DisplayInfo() {
 function player2DisplayInfo() {
     //player2 name and selection choices displayed
     $('#player2-name-display').text('Player 2: ' + player2Info.name);
-    $('#player2-box').append('<p class="player1Choices" data-value="rock">Rock</p>');
-    $('#player2-box').append('<p class="player1Choices" data-value="paper">Paper</p>');
-    $('#player2-box').append('<p class="player1Choices" data-value="scissors">Scissors</p>');
+    $('#player2-box').append('<p class="player2Choices" data-value="rock">Rock</p>');
+    $('#player2-box').append('<p class="player2Choices" data-value="paper">Paper</p>');
+    $('#player2-box').append('<p class="player2Choices" data-value="scissors">Scissors</p>');
 }
 
 $('#add-player').on('click', function(event) {
@@ -159,6 +222,70 @@ $('#add-player').on('click', function(event) {
     }
 });
 
+// WORKING ON BELOW CODE NEED TO COORDINATE AND WORK ON VARIABLES AND WIN/LOSS/TIE COUNTS
+function results() {
+    var player1ChoiceCompare = sessionStorage.getItem('player1Choice');
+    var player2ChoiceCompare = sessionStorage.getItem('player2Choice');
+
+    console.log('player1ChoiceCompare', player1ChoiceCompare);
+    console.log('player2ChoiceCompare', player2ChoiceCompare);
+
+    if ((player1ChoiceCompare != '') && (player2ChoiceCompare != '')) {
+        var player1Win = $('#results-box').html('<p>' + player1Info.name + ' wins with ' + player1Choice + '</p>');
+        var player2Win = $('#results-box').html('<p>' + player2Info.name + ' wins with ' + player2Choice + '</p>');
+        var playerTie = $('#results-box').html('<p>You tied with ' + player2Choice + '</p>');
+
+        // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate counter.
+        if ((player1ChoiceCompare === "Rock") && (player2ChoiceCompare === "Scissors")) {
+            // player 1 wins
+            player1Win;
+        }
+        else if ((player1ChoiceCompare === "Rock") && (player2ChoiceCompare === "Paper")) {
+            // player 2 wins
+            player2Win;
+        }
+        else if ((player1ChoiceCompare === "Scissors") && (player2ChoiceCompare === "Rock")) {
+            // player 2 wins;
+            player2Win;
+        }
+        else if ((player1ChoiceCompare === "Scissors") && (player2ChoiceCompare === "Paper")) {
+            // player 1 wins;
+            player1Win;
+        }
+        else if ((player1ChoiceCompare === "Paper") && (player2ChoiceCompare === "Rock")) {
+            // player 1 wins;
+            player1Win;
+        }
+        else if ((player1ChoiceCompare === "Paper") && (player2ChoiceCompare === "Scissors")) {
+            // player 2 wins;
+            player2Win;
+        }
+        // else if (player1ChoiceCompare === player2ChoiceCompare) {
+        //     // 'tie!';
+        //     playerTie;
+        // }
+
+        // player1Choice = '';
+        // player2Choice = '';
+
+        // sessionStorage.setItem('player1Choice', player1Choice);
+        // sessionStorage.setItem('player2Choice', player2Choice);
+
+    }
+
+    else if((player1Choice != '') && (player2Choice === '')){
+        $('#results-box').html('<p>Waiting for ' + player2Info.name + ' to choose.</p>');
+    }
+
+    else if((player1Choice === '') && (player2Choice != '')){
+        $('#results-box').html('<p>Waiting for ' + player1Info.name + ' to choose.</p>');
+    }
+}
+
+//WORKING ON ABOVE CODE
+
+
+
 
 
 
@@ -168,11 +295,12 @@ $(document).on('click', '.player1Choices', function(event) {
     player1Choice = $(this).text();
     console.log(player1Choice);
 
-    // DOES BELOW LINE WORK?
-    // FIND BEST TO SEND CHOICE TO DATABASE FOR 
+    player1Database.update({
+        choice: player1Choice
+    });
     
-
-    results();
+    sessionStorage.setItem('player1Choice', player1Info.choice);
+    sessionStorage.setItem('player2Choice', player2Info.choice);
 });
 
 $(document).on('click', '.player2Choices', function(event) {
@@ -180,9 +308,12 @@ $(document).on('click', '.player2Choices', function(event) {
     player2Choice = $(this).text();
     console.log(player2Choice);
 
-    // FIXING PLAYER 1 CHOICE TO COPY OVER HERE
-
-    results();
+    player2Database.update({
+        choice: player2Choice
+    });
+    
+    sessionStorage.setItem('player2Choice', player2Info.choice);
+    sessionStorage.setItem('player2Choice', player2Info.choice);
 });
 // FIX CLICK SELECTIONS-----------------
 
@@ -242,61 +373,7 @@ database.ref().on('value', function(snapshot) {
 );
 
 
-// WORKING ON BELOW CODE NEED TO COORDINATE AND WORK ON VARIABLES AND WIN/LOSS/TIE COUNTS
-function results() {
-    if ((player1Choice != '') && (player2Choice != '')) {
-        var player1Win = $('#results-box').html('<p>' + player1Info.name + ' wins with ' + player1Choice + '</p>');
-        var player2Win = $('#results-box').html('<p>' + player2Info.name + ' wins with ' + player2Choice + '</p>');
-        var playerTie = $('#results-box').html('<p>You tied with ' + player2Choice + '</p>');
 
-        console.log('player1Choice - before', player1Choice);
-        console.log('player2Choice - before', player2Choice);
-        // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate counter.
-        if ((player1Choice === "Rock") && (player2Choice === "Scissors")) {
-            // player 1 wins
-            player1Win;
-        }
-        else if ((player1Choice === "Rock") && (player2Choice === "Paper")) {
-            // player 2 wins
-            player2Win;
-        }
-        else if ((player1Choice === "Scissors") && (player2Choice === "Rock")) {
-            // player 2 wins;
-            player2Win;
-        }
-        else if ((player1Choice === "Scissors") && (player2Choice === "Paper")) {
-            // player 1 wins;
-            player1Win;
-        }
-        else if ((player1Choice === "Paper") && (player2Choice === "Rock")) {
-            // player 1 wins;
-            player1Win;
-        }
-        else if ((player1Choice === "Paper") && (player2Choice === "Scissors")) {
-            // player 2 wins;
-            player2Win;
-        }
-        else if (player1Choice === player2Choice) {
-            // 'tie!';
-            playerTie;
-        }
-
-        player1Choice = '';
-        player2Choice = '';
-        // console.log('player1Choice - after', player1Choice);
-        // console.log('player2Choice - after', player2Choice);
-    }
-
-    else if((player1Choice != '') && (player2Choice === '')){
-        $('#results-box').html('<p>Waiting for ' + player2Info.name + ' to choose.</p>');
-    }
-
-    else if((player1Choice === '') && (player2Choice != '')){
-        $('#results-box').html('<p>Waiting for ' + player1Info.name + ' to choose.</p>');
-    }
-}
-
-//WORKING ON ABOVE CODE
 
 
 
