@@ -79,33 +79,9 @@ connectedRef.on('value', function(snapshot) {
 
 
 //WORK ON HOW TO TURN ON LISTENING FOR A LIST/DIRECTORY!!!!!!!!!!
-player1Database.on('value', function(snapshot) {
-    var mainDB = snapshot.val();
-    sessionStorage.setItem('player1Choice', player1Info.choice);
-    sessionStorage.setItem('player2Choice', player2Info.choice);
 
-    console.log('VALUE LISTENER')
 
-    results();
 
-    }, function(errorObject) {
-        console.log("Errors handled: " + errorObject.code);
-    }
-);
-
-player2Database.on('value', function(snapshot) {
-    var mainDB = snapshot.val();
-    sessionStorage.setItem('player1Choice', player1Info.choice);
-    sessionStorage.setItem('player2Choice', player2Info.choice);
-
-    console.log('VALUE LISTENER')
-
-    results();
-
-    }, function(errorObject) {
-        console.log("Errors handled: " + errorObject.code);
-    }
-);
 
 //WORK ON HOW TO TURN ON LISTENING FOR A LIST/DIRECTORY!!!!!!!!!!
 
@@ -301,6 +277,21 @@ $(document).on('click', '.player1Choices', function(event) {
     
     sessionStorage.setItem('player1Choice', player1Info.choice);
     sessionStorage.setItem('player2Choice', player2Info.choice);
+
+    player1Database.on('value', function(snapshot) {
+        var mainDB = snapshot.val();
+        sessionStorage.setItem('player1Choice', player1Info.choice);
+        sessionStorage.setItem('player2Choice', player2Info.choice);
+
+        console.log('VALUE LISTENER')
+
+        results();
+
+    }, function(errorObject) {
+        console.log("Errors handled: " + errorObject.code);
+    }
+);
+
 });
 
 $(document).on('click', '.player2Choices', function(event) {
@@ -314,6 +305,20 @@ $(document).on('click', '.player2Choices', function(event) {
     
     sessionStorage.setItem('player2Choice', player2Info.choice);
     sessionStorage.setItem('player2Choice', player2Info.choice);
+
+    player2Database.on('value', function(snapshot) {
+        var mainDB = snapshot.val();
+        sessionStorage.setItem('player1Choice', player1Info.choice);
+        sessionStorage.setItem('player2Choice', player2Info.choice);
+
+        console.log('VALUE LISTENER')
+
+        results();
+
+    }, function(errorObject) {
+        console.log("Errors handled: " + errorObject.code);
+    }
+);
 });
 // FIX CLICK SELECTIONS-----------------
 
@@ -326,13 +331,13 @@ database.ref().on('value', function(snapshot) {
 
     //WAYS TO REFER TO FIREBASE DATA ---KEEPING FOR REFERENCE IN FUTURE
     console.log(snapshot.val()); //starts as null
-    console.log('is snapshot.val() equal to null', snapshot.val() === null);
-    console.log('snapshot not false', snapshot.val() != null);
-    console.log('snapshot of player', Object.keys(snapshot.val())[0]);
-    console.log('snapshot of player1', (Object.values(snapshot.val())[0]).player1);
-    console.log('snapshot of player1', (Object.keys(Object.values(snapshot.val())[0]))[0] === 'player1');
-    console.log('snapshot of player2', (Object.keys(Object.values(snapshot.val())[0]))[1] === 'player2');
-    console.log('snapshot of player1', (Object.values(snapshot.val())[0]).player1.name);
+    // console.log('is snapshot.val() equal to null', snapshot.val() === null);
+    // console.log('snapshot not false', snapshot.val() != null);
+    // console.log('snapshot of player', Object.keys(snapshot.val())[0]);
+    // console.log('snapshot of player1', (Object.values(snapshot.val())[0]).player1);
+    // console.log('snapshot of player1', (Object.keys(Object.values(snapshot.val())[0]))[0] === 'player1');
+    // console.log('snapshot of player2', (Object.keys(Object.values(snapshot.val())[0]))[1] === 'player2');
+    // console.log('snapshot of player1', (Object.values(snapshot.val())[0]).player1.name);
     
     var player1Presence = (Object.keys(Object.values(snapshot.val())[0]))[0];
     var player2Presence = (Object.keys(Object.values(snapshot.val())[0]))[1];
