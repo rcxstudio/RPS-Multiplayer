@@ -47,46 +47,6 @@ connectedRef.on('value', function(snapshot) {
     }
 });
 
-// playersParent.on('value', function(snapshot) {
-//     console.log(snapshot.val()); //starts as null
-//     var mainDB = snapshot.val();
-
-
-//     }, function(errorObject) {
-//         console.log("Errors handled: " + errorObject.code);
-//     }
-// );
-
-// player1Database.on('value', function(snapshot) {
-//     console.log(snapshot.val()); //starts as null
-//     var mainDB = snapshot.val();
-
-
-//     }, function(errorObject) {
-//         console.log("Errors handled: " + errorObject.code);
-//     }
-// );
-
-// player2Database.on('value', function(snapshot) {
-//     console.log(snapshot.val()); //starts as null
-//     var mainDB = snapshot.val();
-
-
-//     }, function(errorObject) {
-//         console.log("Errors handled: " + errorObject.code);
-//     }
-// );
-
-
-//WORK ON HOW TO TURN ON LISTENING FOR A LIST/DIRECTORY!!!!!!!!!!
-
-
-
-
-//WORK ON HOW TO TURN ON LISTENING FOR A LIST/DIRECTORY!!!!!!!!!!
-
-
-
 // FUNCTIONS -------------
 function addPlayer1(player1Name) {
     function player1Data(name, wins, losses, ties) {
@@ -141,11 +101,13 @@ function storingInfo() {
         sessionStorage.setItem('player1Wins', player1Info.wins);
         sessionStorage.setItem('player1Losses', player1Info.losses);
         sessionStorage.setItem('player1Ties', player1Info.ties);
+        sessionStorage.setItem('player1Choice', player1Info.choice);
 
         sessionStorage.setItem('player2Name', player2Info.name);
         sessionStorage.setItem('player2Wins', player2Info.wins);
         sessionStorage.setItem('player2Losses', player2Info.losses);
         sessionStorage.setItem('player2Ties', player2Info.ties);
+        sessionStorage.setItem('player2Choice', player2Info.choice);
     }
 
     //player1 information from firebase
@@ -154,6 +116,7 @@ function storingInfo() {
         sessionStorage.setItem('player1Wins', player1Info.wins);
         sessionStorage.setItem('player1Losses', player1Info.losses);
         sessionStorage.setItem('player1Ties', player1Info.ties);
+        sessionStorage.setItem('player1Choice', player1Info.choice);
     }
 }
 
@@ -207,34 +170,42 @@ function results() {
     console.log('player2ChoiceCompare', player2ChoiceCompare);
 
     if ((player1ChoiceCompare != '') && (player2ChoiceCompare != '')) {
-        var player1Win = $('#results-box').html('<p>' + player1Info.name + ' wins with ' + player1Choice + '</p>');
-        var player2Win = $('#results-box').html('<p>' + player2Info.name + ' wins with ' + player2Choice + '</p>');
-        var playerTie = $('#results-box').html('<p>You tied with ' + player2Choice + '</p>');
+        var player1Win = $('#results-box').html('<p>' + player1Info.name + ' wins with ' + player1ChoiceCompare + '</p>');
+        var player2Win = $('#results-box').html('<p>' + player2Info.name + ' wins with ' + player2ChoiceCompare + '</p>');
+        var playerTie = $('#results-box').html('<p>You tied with ' + player1ChoiceCompare + '</p>');
 
         // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate counter.
         if ((player1ChoiceCompare === "Rock") && (player2ChoiceCompare === "Scissors")) {
             // player 1 wins
             player1Win;
+            //ADD PLAYER 1 WIN COUNTS
         }
         else if ((player1ChoiceCompare === "Rock") && (player2ChoiceCompare === "Paper")) {
             // player 2 wins
             player2Win;
+            //ADD PLAYER 2 WIN COUNTS
         }
         else if ((player1ChoiceCompare === "Scissors") && (player2ChoiceCompare === "Rock")) {
             // player 2 wins;
             player2Win;
+            //ADD PLAYER 2 WIN COUNTS
         }
         else if ((player1ChoiceCompare === "Scissors") && (player2ChoiceCompare === "Paper")) {
             // player 1 wins;
             player1Win;
+            //ADD PLAYER 1 WIN COUNTS
         }
         else if ((player1ChoiceCompare === "Paper") && (player2ChoiceCompare === "Rock")) {
             // player 1 wins;
             player1Win;
+            //ADD PLAYER 1 WIN COUNTS
+
         }
         else if ((player1ChoiceCompare === "Paper") && (player2ChoiceCompare === "Scissors")) {
             // player 2 wins;
             player2Win;
+            //ADD PLAYER 2 WIN COUNTS
+
         }
         // else if (player1ChoiceCompare === player2ChoiceCompare) {
         //     // 'tie!';
@@ -261,11 +232,6 @@ function results() {
 //WORKING ON ABOVE CODE
 
 
-
-
-
-
-// FIX CLICK SELECTIONS-----------------
 $(document).on('click', '.player1Choices', function(event) {
     console.log('clicked');
     player1Choice = $(this).text();
@@ -279,20 +245,32 @@ $(document).on('click', '.player1Choices', function(event) {
     sessionStorage.setItem('player2Choice', player2Info.choice);
 
     player1Database.on('value', function(snapshot) {
-        var mainDB = snapshot.val();
+        // var mainDB = snapshot.val();
         sessionStorage.setItem('player1Choice', player1Info.choice);
         sessionStorage.setItem('player2Choice', player2Info.choice);
 
-        console.log('VALUE LISTENER')
+        console.log('VALUE LISTENER player1 selected')
 
         results();
 
     }, function(errorObject) {
         console.log("Errors handled: " + errorObject.code);
-    }
-);
+    });
 
+    player2Database.on('value', function(snapshot) {
+        // var mainDB = snapshot.val();
+        sessionStorage.setItem('player1Choice', player1Info.choice);
+        sessionStorage.setItem('player2Choice', player2Info.choice);
+
+        console.log('VALUE LISTENER player2 selected')
+
+        results();
+
+    }, function(errorObject) {
+        console.log("Errors handled: " + errorObject.code);
+    });
 });
+
 
 $(document).on('click', '.player2Choices', function(event) {
     console.log('clicked');
@@ -306,23 +284,32 @@ $(document).on('click', '.player2Choices', function(event) {
     sessionStorage.setItem('player2Choice', player2Info.choice);
     sessionStorage.setItem('player2Choice', player2Info.choice);
 
-    player2Database.on('value', function(snapshot) {
-        var mainDB = snapshot.val();
+    player1Database.on('value', function(snapshot) {
+        // var mainDB = snapshot.val();
         sessionStorage.setItem('player1Choice', player1Info.choice);
         sessionStorage.setItem('player2Choice', player2Info.choice);
 
-        console.log('VALUE LISTENER')
+        console.log('VALUE LISTENER player1 selected')
 
         results();
 
     }, function(errorObject) {
         console.log("Errors handled: " + errorObject.code);
-    }
-);
+    });
+
+    player2Database.on('value', function(snapshot) {
+        // var mainDB = snapshot.val();
+        sessionStorage.setItem('player1Choice', player1Info.choice);
+        sessionStorage.setItem('player2Choice', player2Info.choice);
+
+        console.log('VALUE LISTENER player2 selected')
+
+        results();
+
+    }, function(errorObject) {
+        console.log("Errors handled: " + errorObject.code);
+    });
 });
-// FIX CLICK SELECTIONS-----------------
-
-
 
 
 //watches for any change at all. If time allows, go back to be more selective on what to watch.
@@ -349,8 +336,8 @@ database.ref().on('value', function(snapshot) {
         if (player2Presence === 'player2') {
             player2Toggle = true;
             player2Info = (Object.values(snapshot.val())[0]).player2;
-            console.log('snapshot of player1', (Object.values(snapshot.val())[0]).player2);
-            console.log(player2Info);
+            // console.log('snapshot of player2', (Object.values(snapshot.val())[0]).player2);
+            // console.log(player2Info);
 
         }
         console.log(player1Toggle);
